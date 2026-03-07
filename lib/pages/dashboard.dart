@@ -21,69 +21,72 @@ class _DashboardState extends State<Dashboard> {
         backgroundColor: Colors.blue,
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            const Text(
-              'Menu Dashboard',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Menu Dashboard',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
 
-            const SizedBox(height: 30),
+              const SizedBox(height: 30),
 
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text("Data Kelompok"),
-            ),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text("Data Kelompok"),
+              ),
 
-            const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text("Penjumlahan & Pengurangan"),
-            ),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text("Penjumlahan & Pengurangan"),
+              ),
 
-            const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Prima()),
-                );
-              },
-              child: const Text("Cek Bilangan (Ganjil / Genap / Prima)"),
-            ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Prima()),
+                  );
+                },
+                child: const Text("Cek Bilangan (Ganjil / Genap / Prima)"),
+              ),
 
-            const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text("Jumlah Total Angka"),
-            ),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text("Jumlah Total Angka"),
+              ),
 
-            const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const StopwatchPage(),
-                  ),
-                );
-              },
-              child: const Text("Stopwatch"),
-            ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const StopwatchPage(),
+                    ),
+                  );
+                },
+                child: const Text("Stopwatch"),
+              ),
 
-            const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text("Luas & Volume Piramid"),
-            ),
-          ],
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text("Luas & Volume Piramid"),
+              ),
+            ],
+          ),
         ),
       ),
     );
