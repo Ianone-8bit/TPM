@@ -3,7 +3,10 @@ import 'prima.dart';
 import 'stopwatch_page.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard()
+  const Dashboard({super.key});
+
+  @override
+  State<Dashboard> createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
@@ -13,10 +16,7 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         title: const Text(
           'Dashboard Cuyyy',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.blue,
       ),
@@ -24,15 +24,10 @@ class _DashboardState extends State<Dashboard> {
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             const Text(
               'Menu Dashboard',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 30),
@@ -52,7 +47,12 @@ class _DashboardState extends State<Dashboard> {
             const SizedBox(height: 10),
 
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Prima()),
+                );
+              },
               child: const Text("Cek Bilangan (Ganjil / Genap / Prima)"),
             ),
 
@@ -66,7 +66,14 @@ class _DashboardState extends State<Dashboard> {
             const SizedBox(height: 10),
 
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const StopwatchPage(),
+                  ),
+                );
+              },
               child: const Text("Stopwatch"),
             ),
 
@@ -76,7 +83,6 @@ class _DashboardState extends State<Dashboard> {
               onPressed: () {},
               child: const Text("Luas & Volume Piramid"),
             ),
-
           ],
         ),
       ),
