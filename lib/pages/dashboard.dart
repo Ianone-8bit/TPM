@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'prima.dart';
 import 'stopwatch_page.dart';
+import 'kalkulator_page.dart';
+import 'login_page.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+  final String username;
+  const Dashboard({super.key, required this.username});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -14,11 +17,26 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Dashboard Cuyyy',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text(
+          'Haloo, ${widget.username}!',
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: Colors.blue,
+
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.white),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            },
+          ),
+        ],
       ),
 
       body: Center(
@@ -42,7 +60,14 @@ class _DashboardState extends State<Dashboard> {
               const SizedBox(height: 10),
 
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const KalkulatorPage(),
+                    ),
+                  );
+                },
                 child: const Text("Penjumlahan & Pengurangan"),
               ),
 
