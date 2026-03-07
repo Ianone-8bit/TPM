@@ -33,8 +33,6 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: Colors.green,
         ),
       );
-<<<<<<< HEAD
-=======
 
       Future.delayed(const Duration(seconds: 2), () {
         Navigator.push(
@@ -46,7 +44,6 @@ class _LoginPageState extends State<LoginPage> {
       // setState(() {
       //   isloggedin = true;
       // });
->>>>>>> 4851beb80a8d103a5c9a1a678ee15736ce9285ff
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
