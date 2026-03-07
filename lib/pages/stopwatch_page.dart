@@ -59,8 +59,11 @@ class _StopwatchPageState extends State<StopwatchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Stopwatch", style: TextStyle(color: Colors.white)),
-        centerTitle: true,
+        title: const Text(
+          "Stopwatch",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.blue,
       ),
       body: Center(
         child: Column(
