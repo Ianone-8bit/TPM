@@ -34,6 +34,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
     setState(() {
       _formattedTime = "00:00:00";
     });
+    _stopwatch.stop();
   }
 
   String _formatTime(int milliseconds) {
