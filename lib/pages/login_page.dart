@@ -73,24 +73,30 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(
-                label: Text("Username"),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _usernameController,
+                decoration: const InputDecoration(
+                  label: Text("Username"),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
                 ),
               ),
             ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                label: Text("Password"),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _passwordController,
+                decoration: const InputDecoration(
+                  label: Text("Password"),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
                 ),
+                obscureText: true,
               ),
-              obscureText: true,
             ),
             SizedBox(height: 10),
             ElevatedButton(
