@@ -34,14 +34,10 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
 
-      Future.delayed(const Duration(seconds: 1), () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Dashboard(username: username),
-          ),
-        );
-      });
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Dashboard(username: username)),
+      );
 
       // setState(() {
       //   isloggedin = true;

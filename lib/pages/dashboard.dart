@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'prima.dart';
 import 'stopwatch_page.dart';
-import 'kalkulator_page.dart';
+import 'tambahkurang.dart';
 import 'login_page.dart';
+import 'pyramid.dart';
 
 class Dashboard extends StatefulWidget {
   final String username;
@@ -64,7 +65,7 @@ class _DashboardState extends State<Dashboard> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const KalkulatorPage(),
+                      builder: (context) => const tambahKurang(),
                     ),
                   );
                 },
@@ -107,7 +108,12 @@ class _DashboardState extends State<Dashboard> {
               const SizedBox(height: 10),
 
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Pyramid()),
+                  );
+                },
                 child: const Text("Luas & Volume Piramid"),
               ),
             ],

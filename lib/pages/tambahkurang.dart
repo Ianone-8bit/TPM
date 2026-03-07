@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class KalkulatorPage extends StatefulWidget {
-  const KalkulatorPage({super.key});
+class tambahKurang extends StatefulWidget {
+  const tambahKurang({super.key});
 
   @override
-  State<KalkulatorPage> createState() => _KalkulatorPageState();
+  State<tambahKurang> createState() => _tambahKurangState();
 }
 
-class _KalkulatorPageState extends State<KalkulatorPage> {
+class _tambahKurangState extends State<tambahKurang> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
