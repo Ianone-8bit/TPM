@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'prima.dart';
+import 'stopwatch_page.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
-
-  @override
-  State<Dashboard> createState() => _DashboardState();
+  const Dashboard()
 }
 
 class _DashboardState extends State<Dashboard> {
