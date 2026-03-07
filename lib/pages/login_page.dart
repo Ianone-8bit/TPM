@@ -32,9 +32,6 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: Colors.green,
         ),
       );
-      setState(() {
-        isloggedin = true;
-      });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
