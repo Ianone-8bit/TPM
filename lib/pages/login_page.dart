@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dashboard.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,6 +33,20 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: Colors.green,
         ),
       );
+<<<<<<< HEAD
+=======
+
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Dashboard()),
+        );
+      });
+
+      // setState(() {
+      //   isloggedin = true;
+      // });
+>>>>>>> 4851beb80a8d103a5c9a1a678ee15736ce9285ff
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
