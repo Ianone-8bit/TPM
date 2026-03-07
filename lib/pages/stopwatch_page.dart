@@ -58,7 +58,10 @@ class _StopwatchPageState extends State<StopwatchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Stopwatch"), centerTitle: true),
+      appBar: AppBar(
+        title: const Text("Stopwatch", style: TextStyle(color: Colors.white)),
+        centerTitle: true,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

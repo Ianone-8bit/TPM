@@ -4,11 +4,11 @@ class Prima extends StatefulWidget {
   const Prima({super.key});
 
   @override
-  State <Prima> createState() => _Prima();
+  State<Prima> createState() => _Prima();
 }
 
-class _Prima extends State<Prima>{
-TextEditingController angkaController = TextEditingController();
+class _Prima extends State<Prima> {
+  TextEditingController angkaController = TextEditingController();
   String hasil = "";
 
   bool isPrima(int n) {
@@ -50,7 +50,10 @@ TextEditingController angkaController = TextEditingController();
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cek Bilangan"),
+        title: const Text(
+          "Cek Bilangan",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.blue,
       ),
 
@@ -58,7 +61,6 @@ TextEditingController angkaController = TextEditingController();
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-
             TextField(
               controller: angkaController,
               keyboardType: TextInputType.number,
@@ -79,12 +81,8 @@ TextEditingController angkaController = TextEditingController();
 
             Text(
               hasil,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            )
-
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),
