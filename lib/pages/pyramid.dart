@@ -18,6 +18,14 @@ class _PyramidState extends State<Pyramid> {
   double luas = 0;
 
   void hitung() {
+    if (panjangController.text.isEmpty ||
+        lebarController.text.isEmpty ||
+        tinggiController.text.isEmpty ||
+        tinggiSisiPanjangController.text.isEmpty ||
+        tinggiSisiLebarController.text.isEmpty) {
+      return;
+    }
+
     double p = double.parse(panjangController.text);
     double l = double.parse(lebarController.text);
     double t = double.parse(tinggiController.text);
@@ -36,6 +44,16 @@ class _PyramidState extends State<Pyramid> {
   }
 
   @override
+  void dispose() {
+    panjangController.dispose();
+    lebarController.dispose();
+    tinggiController.dispose();
+    tinggiSisiPanjangController.dispose();
+    tinggiSisiLebarController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -46,81 +64,86 @@ class _PyramidState extends State<Pyramid> {
         backgroundColor: Colors.blue,
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(20),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
 
-        child: Column(
-          children: [
-            const Text(
-              "Volume & Luas Permukaan Piramida",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 20),
-
-            TextField(
-              controller: panjangController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: "Panjang Alas",
-                border: OutlineInputBorder(),
+          child: Column(
+            children: [
+              const Text(
+                "Volume & Luas Permukaan Piramida",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-            ),
 
-            const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
-            TextField(
-              controller: lebarController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: "Lebar Alas",
-                border: OutlineInputBorder(),
+              TextField(
+                controller: panjangController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: "Panjang Alas",
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
 
-            const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-            TextField(
-              controller: tinggiController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: "Tinggi Piramida",
-                border: OutlineInputBorder(),
+              TextField(
+                controller: lebarController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: "Lebar Alas",
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
 
-            const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-            TextField(
-              controller: tinggiSisiPanjangController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: "Tinggi Sisi (depan/belakang)",
-                border: OutlineInputBorder(),
+              TextField(
+                controller: tinggiController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: "Tinggi Piramida",
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
 
-            const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-            TextField(
-              controller: tinggiSisiLebarController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: "Tinggi Sisi (kiri/kanan)",
-                border: OutlineInputBorder(),
+              TextField(
+                controller: tinggiSisiPanjangController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: "Tinggi Sisi (depan/belakang)",
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 10),
 
-            ElevatedButton(onPressed: hitung, child: const Text("Hitung")),
+              TextField(
+                controller: tinggiSisiLebarController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: "Tinggi Sisi (kiri/kanan)",
+                  border: OutlineInputBorder(),
+                ),
+              ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            Text("Volume: $volume", style: const TextStyle(fontSize: 18)),
+              ElevatedButton(onPressed: hitung, child: const Text("Hitung")),
 
-            Text("Luas Permukaan: $luas", style: const TextStyle(fontSize: 18)),
-          ],
+              const SizedBox(height: 20),
+
+              Text("Volume: $volume", style: const TextStyle(fontSize: 18)),
+
+              Text(
+                "Luas Permukaan: $luas",
+                style: const TextStyle(fontSize: 18),
+              ),
+            ],
+          ),
         ),
       ),
     );

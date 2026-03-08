@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:state/pages/datakelompok.dart';
 import 'prima.dart';
 import 'stopwatch_page.dart';
 import 'tambahkurang.dart';
@@ -54,7 +55,14 @@ class _DashboardState extends State<Dashboard> {
               const SizedBox(height: 30),
 
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DataKelompok(),
+                    ),
+                  );
+                },
                 child: const Text("Data Kelompok"),
               ),
 
