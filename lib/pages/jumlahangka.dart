@@ -8,71 +8,60 @@ class TotalAngka extends StatefulWidget {
 }
 
 class _TotalAngkaState extends State<TotalAngka> {
-
-  TextEditingController angkaController = TextEditingController();
+  TextEditingController inputController = TextEditingController();
   int hasil = 0;
 
-  void hitungTotal(){
-
-    List<String> angkaList = angkaController.text.split(" ");
+  void hitungTotal() {
+    String input = inputController.text;
     int total = 0;
 
-    for (var angka in angkaList){
-      total += int.tryParse(angka) ?? 0;
+    for (int i = 0; i < input.length; i++) {
+      String char = input[i];
+
+      if (int.tryParse(char) != null) {
+        total += int.parse(char);
+      }
     }
 
     setState(() {
       hasil = total;
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Jumlah Total Angka"),
-        backgroundColor: Colors.blue,
-      ),
+      appBar: AppBar(title: const Text("Jumlah Angka dalam String")),
 
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-
             const Text(
-              "Masukkan angka dipisah spasi",
+              "Masukkan teks (angka di dalamnya akan dijumlahkan)",
               style: TextStyle(fontSize: 18),
             ),
 
             const SizedBox(height: 20),
 
             TextField(
-              controller: angkaController,
-              keyboardType: TextInputType.number,
+              controller: inputController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: " apa yaa???",
+                hintText: "Contoh: apalah9ajsih19uue8",
               ),
             ),
 
             const SizedBox(height: 20),
 
-            ElevatedButton(
-              onPressed: hitungTotal,
-              child: const Text("Hitung"),
-            ),
+            ElevatedButton(onPressed: hitungTotal, child: const Text("Hitung")),
 
             const SizedBox(height: 20),
 
             Text(
-              "Total = $hasil",
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+              "Total Angka = $hasil",
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-
           ],
         ),
       ),
