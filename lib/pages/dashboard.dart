@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:state/pages/datakelompok.dart';
+import 'package:state/pages/jumlahangka.dart';
 import 'prima.dart';
 import 'stopwatch_page.dart';
 import 'tambahkurang.dart';
@@ -95,7 +96,12 @@ class _DashboardState extends State<Dashboard> {
               const SizedBox(height: 10),
 
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TotalAngka()),
+                  );
+                },
                 child: const Text("Jumlah Total Angka"),
               ),
 
