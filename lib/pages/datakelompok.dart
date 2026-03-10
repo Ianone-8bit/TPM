@@ -88,7 +88,7 @@ class DataKelompok extends StatelessWidget {
               ),
 
               anggota(
-                "lib/assets/driessen.jpeg",
+                "lib/assets/driessenkece.jpeg",
                 "Nurma Buana Driessen",
                 "NIM: 123230229",
               ),

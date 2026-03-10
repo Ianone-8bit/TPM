@@ -20,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
     "kirana": "227",
     "driessen": "229",
     "woo": "nyawit",
+    "mrsugab" : "flutterasik",
   };
 
   void _login() {
