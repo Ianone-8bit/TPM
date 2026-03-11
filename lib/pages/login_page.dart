@@ -11,7 +11,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool isloggedin = false;
 
   final Map<String, String> users = {
     "wdagda": "##beltrayal2",
@@ -20,7 +19,6 @@ class _LoginPageState extends State<LoginPage> {
     "kirana": "227",
     "driessen": "229",
     "woo": "nyawit",
-    "mrsugab" : "flutterasik",
   };
 
   void _login() {
@@ -39,10 +37,6 @@ class _LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute(builder: (context) => Dashboard(username: username)),
       );
-
-      // setState(() {
-      //   isloggedin = true;
-      // });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
