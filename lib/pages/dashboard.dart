@@ -6,6 +6,7 @@ import 'stopwatch_page.dart';
 import 'tambahkurang.dart';
 import 'login_page.dart';
 import 'pyramid.dart';
+import 'weton.dart';
 
 class Dashboard extends StatefulWidget {
   final String username;
@@ -129,6 +130,18 @@ class _DashboardState extends State<Dashboard> {
                   );
                 },
                 child: const Text("Luas & Volume Piramid"),
+              ),
+
+              const SizedBox(height: 10),
+
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Weton()),
+                  );
+                },
+                child: const Text("Cek Weton"),
               ),
             ],
           ),
