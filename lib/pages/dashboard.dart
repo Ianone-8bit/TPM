@@ -7,6 +7,7 @@ import 'tambahkurang.dart';
 import 'login_page.dart';
 import 'pyramid.dart';
 import 'weton.dart';
+import 'hijriah.dart';
 
 class Dashboard extends StatefulWidget {
   final String username;
@@ -142,6 +143,17 @@ class _DashboardState extends State<Dashboard> {
                   );
                 },
                 child: const Text("Cek Weton"),
+              ),
+              const SizedBox(height: 10),
+
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Hijriah()),
+                  );
+                },
+                child: const Text("Hijriah"),
               ),
             ],
           ),
