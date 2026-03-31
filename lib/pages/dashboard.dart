@@ -8,6 +8,7 @@ import 'login_page.dart';
 import 'pyramid.dart';
 import 'weton.dart';
 import 'hijriah.dart';
+import 'hitungumur.dart';
 
 class Dashboard extends StatefulWidget {
   final String username;
@@ -154,6 +155,17 @@ class _DashboardState extends State<Dashboard> {
                   );
                 },
                 child: const Text("Hijriah"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HitungUmurPage(),
+                    ),
+                  );
+                },
+                child: const Text("Hitung Umur"),
               ),
             ],
           ),

@@ -9,9 +9,13 @@ class Weton extends StatefulWidget {
 
 class _WetonState extends State<Weton> {
   DateTime? selectedDate;
-  String hasil = "";
 
-  final List<String> hari = [
+  String namaHari = "";
+  String namaPasaran = "";
+  String hasilWeton = "";
+  String pesanError = "";
+
+  final List<String> hariList = [
     "Senin",
     "Selasa",
     "Rabu",
@@ -21,63 +25,12 @@ class _WetonState extends State<Weton> {
     "Minggu",
   ];
 
-  final List<String> pasaran = ["Legi", "Pahing", "Pon", "Wage", "Kliwon"];
+  final List<String> pasaranList = ["Legi", "Pahing", "Pon", "Wage", "Kliwon"];
 
-  int hitungJDN(int y, int m, int d) {
-    int a = ((14 - m) / 12).floor();
-    int y1 = y + 4800 - a;
-    int m1 = m + 12 * a - 3;
-
-    int jdn =
-        d +
-        ((153 * m1 + 2) / 5).floor() +
-        365 * y1 +
-        (y1 / 4).floor() -
-        (y1 / 100).floor() +
-        (y1 / 400).floor() -
-        32045;
-
-    return jdn;
-  }
-
-  String getPasaran(DateTime date) {
-    int jdn = hitungJDN(date.year, date.month, date.day);
-    return pasaran[jdn % 5]; // offset 0, referensi: 10 Okt 2005 = Kliwon ✅
-  }
-
-  String getHari(DateTime date) {
-    return hari[date.weekday - 1]; // Flutter weekday: 1=Senin ... 7=Minggu
-  }
-
-  void cekWeton() {
-    if (selectedDate == null) {
-      setState(() {
-        hasil = "Silakan pilih tanggal terlebih dahulu.";
-      });
-      return;
-    }
-
-    String namaHari = getHari(selectedDate!);
-    String namaPasaran = getPasaran(selectedDate!);
-
-    String tgl =
-        "${selectedDate!.day.toString().padLeft(2, '0')}-"
-        "${selectedDate!.month.toString().padLeft(2, '0')}-"
-        "${selectedDate!.year}";
-
-    setState(() {
-      hasil =
-          "Tanggal : $tgl\n"
-          "Hari    : $namaHari\n"
-          "Pasaran : $namaPasaran\n"
-          "Weton   : $namaHari $namaPasaran";
-    });
-  }
-
-  Future<void> pilihTanggal() async {
-    DateTime? picked = await showDatePicker(
+  Future<void> _pickDate() async {
+    final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime(2100),
     );
@@ -85,9 +38,139 @@ class _WetonState extends State<Weton> {
     if (picked != null) {
       setState(() {
         selectedDate = picked;
-        hasil = "";
+        pesanError = "";
+        namaHari = "";
+        namaPasaran = "";
+        hasilWeton = "";
       });
     }
+  }
+
+  String _formatTanggal(DateTime date) {
+    const namaBulan = [
+      "",
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ];
+    return "${date.day} ${namaBulan[date.month]} ${date.year}";
+  }
+
+  void _cekWeton() {
+    if (selectedDate == null) {
+      setState(() {
+        pesanError = "Silakan pilih tanggal terlebih dahulu";
+        namaHari = "";
+        namaPasaran = "";
+        hasilWeton = "";
+      });
+      return;
+    }
+
+    final date = selectedDate!;
+    final hari = hariList[date.weekday - 1];
+
+    // Acuan: 17 Agustus 1945 = Jumat Legi
+    final DateTime tanggalAcuan = DateTime(1945, 8, 17);
+    final int selisihHari = date.difference(tanggalAcuan).inDays;
+
+    int indexPasaran = selisihHari % 5;
+    if (indexPasaran < 0) indexPasaran += 5;
+
+    final pasaran = pasaranList[indexPasaran];
+
+    setState(() {
+      namaHari = hari;
+      namaPasaran = pasaran;
+      hasilWeton = "$hari $pasaran";
+      pesanError = "";
+    });
+  }
+
+  void _reset() {
+    setState(() {
+      selectedDate = null;
+      namaHari = "";
+      namaPasaran = "";
+      hasilWeton = "";
+      pesanError = "";
+    });
+  }
+
+  String _labelTombol() {
+    if (selectedDate == null) return "Pilih Tanggal";
+    final namaHari = hariList[selectedDate!.weekday - 1];
+    return "$namaHari, ${_formatTanggal(selectedDate!)}";
+  }
+
+  Widget _halfInfoCard(String title, String value) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.blue.shade50,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.blue.shade200),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(fontSize: 12, color: Colors.blue.shade700),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              value,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue.shade900,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _fullInfoCard(String title, String value) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.blue.shade50,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.blue.shade200),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontSize: 12, color: Colors.blue.shade700),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue.shade900,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -101,50 +184,100 @@ class _WetonState extends State<Weton> {
         backgroundColor: Colors.blue,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(24),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ElevatedButton.icon(
-              onPressed: pilihTanggal,
-              icon: const Icon(Icons.calendar_today),
-              label: Text(
-                selectedDate == null
-                    ? "Pilih Tanggal"
-                    : "${selectedDate!.day.toString().padLeft(2, '0')}-"
-                        "${selectedDate!.month.toString().padLeft(2, '0')}-"
-                        "${selectedDate!.year}",
-              ),
+            Text(
+              "Temukan hari, pasaran, dan weton Jawa berdasarkan tanggal pilihanmu.",
+              style: TextStyle(fontSize: 14, color: Colors.blue.shade700),
             ),
             const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: cekWeton,
-              icon: const Icon(Icons.search),
-              label: const Text("Cek Weton"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 24),
-            if (hasil.isNotEmpty)
-              Container(
-                padding: const EdgeInsets.all(16),
+
+            // Tombol pilih tanggal
+            InkWell(
+              onTap: _pickDate,
+              borderRadius: BorderRadius.circular(16),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade50,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
+                  color: Colors.white,
                   border: Border.all(color: Colors.blue.shade200),
                 ),
-                child: Text(
-                  hasil,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    height: 1.8,
-                    fontFamily: 'monospace',
-                  ),
+                child: Row(
+                  children: [
+                    Icon(Icons.event, color: Colors.blue),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Text(
+                        _labelTombol(),
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    const Icon(Icons.keyboard_arrow_down_rounded),
+                  ],
                 ),
               ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Tombol cek
+            SizedBox(
+              width: double.infinity,
+              height: 52,
+              child: FilledButton(
+                onPressed: _cekWeton,
+                style: FilledButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+                child: const Text("Cek Hari & Weton"),
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // Tombol reset
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: OutlinedButton(
+                onPressed: _reset,
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: Colors.blue),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+                child: const Text("Reset"),
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            if (pesanError.isNotEmpty)
+              Text(pesanError, style: const TextStyle(color: Colors.red)),
+
+            const SizedBox(height: 16),
+
+            if (hasilWeton.isNotEmpty) ...[
+              Row(
+                children: [
+                  _halfInfoCard("Hari", namaHari),
+                  const SizedBox(width: 16),
+                  _halfInfoCard("Pasaran", namaPasaran),
+                ],
+              ),
+              const SizedBox(height: 16),
+              _fullInfoCard("Weton", hasilWeton),
+            ],
           ],
         ),
       ),
