@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hijri_calendar/hijri_calendar.dart';
 
 class Hijriah extends StatefulWidget {
   const Hijriah({super.key});
@@ -10,8 +11,12 @@ class Hijriah extends StatefulWidget {
 class _HijriahState extends State<Hijriah> {
   DateTime? selectedDate;
   String hasil = "";
+  bool _isMuhammadiyah = true; // true = Muhammadiyah, false = NU
 
-  final List<String> namaBulanHijriah = [
+  static final DateTime _minDate = DateTime(1937, 1, 1);
+  static final DateTime _maxDate = DateTime(2076, 12, 31);
+
+  final List<String> _namaBulanHijriahId = [
     "Muharram",
     "Safar",
     "Rabi'ul Awal",
@@ -26,40 +31,17 @@ class _HijriahState extends State<Hijriah> {
     "Dzulhijjah",
   ];
 
-  // Konversi Masehi ke Hijriah menggunakan algoritma JDN
-  Map<String, int> maseh2Hijriah(int y, int m, int d) {
-    // Hitung Julian Day Number dari tanggal Masehi
-    int a = ((14 - m) / 12).floor();
-    int y1 = y + 4800 - a;
-    int m1 = m + 12 * a - 3;
+  final List<String> _namaHariId = [
+    'Senin',
+    'Selasa',
+    'Rabu',
+    'Kamis',
+    'Jumat',
+    'Sabtu',
+    'Minggu',
+  ];
 
-    int jdn =
-        d +
-        ((153 * m1 + 2) / 5).floor() +
-        365 * y1 +
-        (y1 / 4).floor() -
-        (y1 / 100).floor() +
-        (y1 / 400).floor() -
-        32045;
-
-    // Konversi JDN ke Hijriah
-    int l = jdn - 1948440 + 10632;
-    int n = ((l - 1) / 10631).floor();
-    l = l - 10631 * n + 354;
-    int j =
-        ((10985 - l) / 5316).floor() * ((50 * l) / 17719).floor() +
-        (l / 5670).floor() * ((43 * l) / 15238).floor();
-    l =
-        l -
-        ((30 - j) / 15).floor() * ((17719 * j) / 50).floor() -
-        (j / 16).floor() * ((15238 * j) / 43).floor() +
-        29;
-    int month = ((24 * l) / 709).floor();
-    int day = l - ((709 * month) / 24).floor();
-    int year = 30 * n + j - 30;
-
-    return {"day": day, "month": month, "year": year};
-  }
+  String _getNamaHari(int weekday) => _namaHariId[weekday - 1];
 
   void cekHijriah() {
     if (selectedDate == null) {
@@ -69,38 +51,52 @@ class _HijriahState extends State<Hijriah> {
       return;
     }
 
-    final hijriah = maseh2Hijriah(
-      selectedDate!.year,
-      selectedDate!.month,
-      selectedDate!.day,
-    );
+    try {
+      HijriCalendarConfig.language = 'en';
 
-    int hDay = hijriah["day"]!;
-    int hMonth = hijriah["month"]!;
-    int hYear = hijriah["year"]!;
-    String namaBulan = namaBulanHijriah[hMonth - 1];
+      // opsi untuk muhammadiyah
+      final tanggalDihitung =
+          _isMuhammadiyah
+              ? selectedDate!
+              : selectedDate!.subtract(const Duration(days: 1));
 
-    String tglMasehi =
-        "${selectedDate!.day.toString().padLeft(2, '0')}-"
-        "${selectedDate!.month.toString().padLeft(2, '0')}-"
-        "${selectedDate!.year}";
+      final hijriah = HijriCalendarConfig.fromGregorian(tanggalDihitung);
 
-    String tglHijriah =
-        "${hDay.toString().padLeft(2, '0')} $namaBulan $hYear H";
+      int hDay = hijriah.hDay;
+      int hMonth = hijriah.hMonth;
+      int hYear = hijriah.hYear;
+      String namaBulan = _namaBulanHijriahId[hMonth - 1];
+      String namaHari = _getNamaHari(selectedDate!.weekday);
+      String metode = _isMuhammadiyah ? "Hisab (Muhammadiyah)" : "Rukyat (NU)";
 
-    setState(() {
-      hasil =
-          "Masehi  : $tglMasehi\n"
-          "Hijriah : $tglHijriah\n\n";
-    });
+      String tglMasehi =
+          "${selectedDate!.day.toString().padLeft(2, '0')}-"
+          "${selectedDate!.month.toString().padLeft(2, '0')}-"
+          "${selectedDate!.year}";
+
+      String tglHijriah =
+          "${hDay.toString().padLeft(2, '0')} $namaBulan $hYear H";
+
+      setState(() {
+        hasil =
+            "Metode  : $metode\n"
+            "Hari    : $namaHari\n"
+            "Masehi  : $tglMasehi\n"
+            "Hijriah : $tglHijriah";
+      });
+    } catch (_) {
+      setState(() {
+        hasil = "Gagal mengonversi tanggal, silakan coba lagi.";
+      });
+    }
   }
 
   Future<void> pilihTanggal() async {
     DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(622), // Awal kalender Hijriah
-      lastDate: DateTime(2100),
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: _minDate,
+      lastDate: _maxDate,
     );
 
     if (picked != null) {
@@ -109,6 +105,16 @@ class _HijriahState extends State<Hijriah> {
         hasil = "";
       });
     }
+  }
+
+  String _labelTombol() {
+    if (selectedDate == null) return "Pilih Tanggal Masehi";
+    String namaHari = _getNamaHari(selectedDate!.weekday);
+    String tgl =
+        "${selectedDate!.day.toString().padLeft(2, '0')}-"
+        "${selectedDate!.month.toString().padLeft(2, '0')}-"
+        "${selectedDate!.year}";
+    return "$namaHari, $tgl";
   }
 
   @override
@@ -126,16 +132,116 @@ class _HijriahState extends State<Hijriah> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Toggle Muhammadiyah / NU
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.green.shade100,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap:
+                          () => setState(() {
+                            _isMuhammadiyah = true;
+                            hasil = "";
+                          }),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color:
+                              _isMuhammadiyah
+                                  ? Colors.green.shade700
+                                  : Colors.transparent,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Muhammadiyah",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                color:
+                                    _isMuhammadiyah
+                                        ? Colors.white
+                                        : Colors.green.shade700,
+                              ),
+                            ),
+                            Text(
+                              "Hisab",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 11,
+                                color:
+                                    _isMuhammadiyah
+                                        ? Colors.white70
+                                        : Colors.green.shade400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap:
+                          () => setState(() {
+                            _isMuhammadiyah = false;
+                            hasil = "";
+                          }),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color:
+                              !_isMuhammadiyah
+                                  ? Colors.green.shade700
+                                  : Colors.transparent,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              "NU",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                color:
+                                    !_isMuhammadiyah
+                                        ? Colors.white
+                                        : Colors.green.shade700,
+                              ),
+                            ),
+                            Text(
+                              "Rukyat",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 11,
+                                color:
+                                    !_isMuhammadiyah
+                                        ? Colors.white70
+                                        : Colors.green.shade400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: pilihTanggal,
               icon: const Icon(Icons.calendar_today),
-              label: Text(
-                selectedDate == null
-                    ? "Pilih Tanggal Masehi"
-                    : "${selectedDate!.day.toString().padLeft(2, '0')}-"
-                        "${selectedDate!.month.toString().padLeft(2, '0')}-"
-                        "${selectedDate!.year}",
-              ),
+              label: Text(_labelTombol()),
             ),
             const SizedBox(height: 16),
             ElevatedButton.icon(
