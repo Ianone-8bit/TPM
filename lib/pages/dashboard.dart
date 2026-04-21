@@ -9,6 +9,7 @@ import 'pyramid.dart';
 import 'weton.dart';
 import 'hijriah.dart';
 import 'hitungumur.dart';
+import 'saka.dart';
 
 class Dashboard extends StatefulWidget {
   final String username;
@@ -155,7 +156,18 @@ class _DashboardState extends State<Dashboard> {
                   );
                 },
                 child: const Text("Hijriah"),
+
               ),
+                      ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Saka()),
+                  );
+                },
+                child: const Text("Tahun Saka"),
+              ),
+
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
