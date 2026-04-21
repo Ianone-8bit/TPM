@@ -11,37 +11,40 @@ class _SakaState extends State<Saka> {
   DateTime? selectedDate;
   String hasil = "";
 
-  // Nama hari Saptawara
   final List<String> saptawara = [
-    'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'
+    'Senin',
+    'Selasa',
+    'Rabu',
+    'Kamis',
+    'Jumat',
+    'Sabtu',
+    'Minggu',
   ];
 
-  // Nama hari Pancawara (Pasaran)
-  final List<String> pancawara = [
-    'Legi', 'Paing', 'Pon', 'Wage', 'Kliwon'
-  ];
+  final List<String> pancawara = ['Legi', 'Paing', 'Pon', 'Wage', 'Kliwon'];
 
-  // Nama bulan Saka (Versi Indonesia/Lokal)
   final List<String> bulanSaka = [
-    "Kasa", "Karo", "Katiga", "Kapat", "Kalima", "Kanem",
-    "Kapitu", "Kawalu", "Kasanga", "Kadasa", "Jiyestha", "Sadha"
+    "Kasa",
+    "Karo",
+    "Katiga",
+    "Kapat",
+    "Kalima",
+    "Kanem",
+    "Kapitu",
+    "Kawalu",
+    "Kasanga",
+    "Kadasa",
+    "Jiyestha",
+    "Sadha",
   ];
 
-  // =========================
-  // LOGIKA PERHITUNGAN
-  // =========================
-
-  // Menghitung Pasaran (Pancawara)
   String getPancawara(DateTime date) {
-    // Referensi: 1 Januari 1970 adalah Kamis Wage
-    // Wage berada di index 3 pada list [Legi, Paing, Pon, Wage, Kliwon]
     final DateTime referensi = DateTime(1970, 1, 1);
     final int selisihHari = date.difference(referensi).inDays;
-    
-    // Modulo 5 karena siklusnya 5 hari
+
     int index = (selisihHari + 3) % 5;
-    if (index < 0) index += 5; // Handle tanggal sebelum 1970
-    
+    if (index < 0) index += 5;
+
     return pancawara[index];
   }
 
@@ -61,11 +64,9 @@ class _SakaState extends State<Saka> {
     int thnMasehi = tgl.year;
     bool isLeap = cekKabisat(thnMasehi);
 
-    // Aturan Saka Solar: Kabisat mulai 21 Maret, Biasa mulai 22 Maret
     DateTime awalSaka = DateTime(thnMasehi, 3, isLeap ? 21 : 22);
     int thnSaka = thnMasehi - 78;
 
-    // Jika input sebelum awal tahun Saka, maka ikut tahun Saka sebelumnya
     if (tgl.isBefore(awalSaka)) {
       thnSaka -= 1;
       bool isPrevLeap = cekKabisat(thnMasehi - 1);
@@ -75,11 +76,19 @@ class _SakaState extends State<Saka> {
 
     int selisihHari = tgl.difference(awalSaka).inDays;
 
-    // Durasi hari tiap bulan (Saka Solar)
-    // Chaitra (Kasa) jadi 31 hari jika kabisat
     List<int> hariBulan = [
-      isLeap ? 31 : 30, 31, 31, 31, 31, 31,
-      30, 30, 30, 30, 30, 30
+      isLeap ? 31 : 30,
+      31,
+      31,
+      31,
+      31,
+      31,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
     ];
 
     int bulanIdx = 0;
@@ -88,21 +97,17 @@ class _SakaState extends State<Saka> {
       bulanIdx++;
     }
 
-    // Output Formatting
     String hariMasehi = saptawara[tgl.weekday - 1];
     String hariPasaran = getPancawara(tgl);
     int tglSaka = selisihHari + 1;
 
     setState(() {
-      hasil = "Hari      : $hariMasehi $hariPasaran\n"
-              "Masehi    : ${tgl.day.toString().padLeft(2, '0')}-${tgl.month.toString().padLeft(2, '0')}-${tgl.year}\n"
-              "Saka      : $tglSaka ${bulanSaka[bulanIdx]} $thnSaka";
+      hasil =
+          "Hari      : $hariMasehi $hariPasaran\n"
+          "Masehi    : ${tgl.day.toString().padLeft(2, '0')}-${tgl.month.toString().padLeft(2, '0')}-${tgl.year}\n"
+          "Saka      : $tglSaka ${bulanSaka[bulanIdx]} $thnSaka";
     });
   }
-
-  // =========================
-  // UI & HELPER
-  // =========================
 
   Future<void> pilihTanggal() async {
     DateTime? picked = await showDatePicker(
@@ -124,9 +129,11 @@ class _SakaState extends State<Saka> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Konverter Kalender Saka", 
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-        backgroundColor: Colors.deepPurple,
+        title: const Text(
+          "Konverter Kalender Saka",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        backgroundColor: Colors.blue,
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -134,34 +141,27 @@ class _SakaState extends State<Saka> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              "Pilih Tanggal Masehi untuk dikonversi ke sistem penanggalan Saka.",
-              style: TextStyle(color: Colors.grey),
-            ),
-            const SizedBox(height: 20),
-            
-            // Tombol Pilih Tanggal
-            OutlinedButton.icon(
+            ElevatedButton.icon(
               onPressed: pilihTanggal,
               icon: const Icon(Icons.calendar_month),
-              label: Text(selectedDate == null 
-                ? "Ketuk untuk pilih tanggal" 
-                : "${saptawara[selectedDate!.weekday-1]}, ${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}"),
+              label: Text(
+                selectedDate == null
+                    ? "Ketuk untuk pilih tanggal"
+                    : "${saptawara[selectedDate!.weekday - 1]}, ${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}",
+              ),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 15),
-                side: const BorderSide(color: Colors.indigo),
               ),
             ),
 
             const SizedBox(height: 15),
 
-            // Tombol Hitung
             ElevatedButton.icon(
               onPressed: hitungSaka,
               icon: const Icon(Icons.refresh),
               label: const Text("PROSES KONVERSI"),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 15),
               ),
@@ -169,27 +169,32 @@ class _SakaState extends State<Saka> {
 
             const SizedBox(height: 30),
 
-            // Tampilan Hasil
             if (hasil.isNotEmpty)
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.pink.shade50,
                   borderRadius: BorderRadius.circular(15),
-                  border: Border.all(color: Colors.deepPurple.shade200),
+                  border: Border.all(color: Colors.blue),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
-                    )
+                    ),
                   ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("HASIL PERHITUNGAN:", 
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+                    const Text(
+                      "HASIL PERHITUNGAN:",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
                     const Divider(),
                     Text(
                       hasil,
