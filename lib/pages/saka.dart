@@ -158,12 +158,12 @@ class _SakaState extends State<Saka> {
 
             ElevatedButton.icon(
               onPressed: hitungSaka,
-              icon: const Icon(Icons.refresh),
-              label: const Text("PROSES KONVERSI"),
+              icon: const Icon(Icons.search),
+              label: const Text("Konversi Ke Saka "),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 15),
+                padding: const EdgeInsets.symmetric(vertical: 10),
               ),
             ),
 

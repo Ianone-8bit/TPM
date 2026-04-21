@@ -79,7 +79,6 @@ class _WetonState extends State<Weton> {
     final date = selectedDate!;
     final hari = hariList[date.weekday - 1];
 
-    // Acuan: 17 Agustus 1945 = Jumat Legi
     final DateTime tanggalAcuan = DateTime(1945, 8, 17);
     final int selisihHari = date.difference(tanggalAcuan).inDays;
 
@@ -182,6 +181,7 @@ class _WetonState extends State<Weton> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.blue,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
@@ -194,7 +194,6 @@ class _WetonState extends State<Weton> {
             ),
             const SizedBox(height: 16),
 
-            // Tombol pilih tanggal
             InkWell(
               onTap: _pickDate,
               borderRadius: BorderRadius.circular(16),
@@ -211,7 +210,7 @@ class _WetonState extends State<Weton> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.event, color: Colors.blue),
+                    const Icon(Icons.event, color: Colors.blue),
                     const SizedBox(width: 16),
                     Expanded(
                       child: Text(
@@ -227,31 +226,24 @@ class _WetonState extends State<Weton> {
 
             const SizedBox(height: 16),
 
-            // Tombol cek
             SizedBox(
               width: double.infinity,
               height: 52,
-              child: FilledButton(
+              child: ElevatedButton.icon(
                 onPressed: _cekWeton,
-                style: FilledButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                ),
-                child: const Text("Cek Hari & Weton"),
+                icon: const Icon(Icons.search),
+                label: const Text("Cek Hari dan Weton"),
               ),
             ),
+
             const SizedBox(height: 8),
 
-            // Tombol reset
             SizedBox(
               width: double.infinity,
               height: 48,
-              child: OutlinedButton(
+              child: ElevatedButton(
                 onPressed: _reset,
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Colors.blue),
+                style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
