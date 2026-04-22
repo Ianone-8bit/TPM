@@ -46,10 +46,13 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
       ),
-      body: Center( 
+      body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 20.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 25.0,
+              vertical: 20.0,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -62,9 +65,9 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
                 const SizedBox(height: 20),
-              
+
                 Container(
-                  constraints: const BoxConstraints(maxWidth: 450), 
+                  constraints: const BoxConstraints(maxWidth: 450),
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -80,21 +83,71 @@ class _DashboardState extends State<Dashboard> {
                   child: GridView.count(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2, 
+                    crossAxisCount: 2,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    childAspectRatio: 2.8, 
+                    childAspectRatio: 2.8,
                     children: [
-                      _buildMenuButton(context, "Kelompok", Icons.group, const DataKelompok()),
-                      _buildMenuButton(context, "Jumlah", Icons.add_box, const TambahKurang()),
-                      _buildMenuButton(context, "Bilangan", Icons.calculate, const Prima()),
-                      _buildMenuButton(context, "Total", Icons.summarize, const TotalAngka()),
-                      _buildMenuButton(context, "Timer", Icons.timer, const StopwatchPage()),
-                      _buildMenuButton(context, "Piramid", Icons.change_history, const Pyramid()),
-                      _buildMenuButton(context, "Weton", Icons.calendar_month, const Weton()),
-                      _buildMenuButton(context, "Hijriah", Icons.mosque, const Hijriah()),
-                      _buildMenuButton(context, "Tahun Saka", Icons.auto_awesome, const Saka()),
-                      _buildMenuButton(context, "Umur", Icons.cake, const HitungUmurPage()),
+                      _buildMenuButton(
+                        context,
+                        "Data Kelompok",
+                        Icons.group,
+                        const DataKelompok(),
+                      ),
+                      _buildMenuButton(
+                        context,
+                        "Penjumlahan",
+                        Icons.add_box,
+                        const TambahKurang(),
+                      ),
+                      _buildMenuButton(
+                        context,
+                        "Cek Bilangan",
+                        Icons.calculate,
+                        const Prima(),
+                      ),
+                      _buildMenuButton(
+                        context,
+                        "Total Angka",
+                        Icons.summarize,
+                        const TotalAngka(),
+                      ),
+                      _buildMenuButton(
+                        context,
+                        "Stopwatch",
+                        Icons.timer,
+                        const StopwatchPage(),
+                      ),
+                      _buildMenuButton(
+                        context,
+                        "Kalkulator Piramida",
+                        Icons.change_history,
+                        const Pyramid(),
+                      ),
+                      _buildMenuButton(
+                        context,
+                        "Weton",
+                        Icons.calendar_month,
+                        const Weton(),
+                      ),
+                      _buildMenuButton(
+                        context,
+                        "Kalender Hijriah",
+                        Icons.mosque,
+                        const Hijriah(),
+                      ),
+                      _buildMenuButton(
+                        context,
+                        "Kalender Saka",
+                        Icons.auto_awesome,
+                        const Saka(),
+                      ),
+                      _buildMenuButton(
+                        context,
+                        "Cek Umur",
+                        Icons.cake,
+                        const HitungUmurPage(),
+                      ),
                     ],
                   ),
                 ),
@@ -107,7 +160,12 @@ class _DashboardState extends State<Dashboard> {
   }
 
   // Helper Widget dengan susunan Logo Kiri, Teks Kanan
-  Widget _buildMenuButton(BuildContext context, String label, IconData icon, Widget page) {
+  Widget _buildMenuButton(
+    BuildContext context,
+    String label,
+    IconData icon,
+    Widget page,
+  ) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.blue[50],
@@ -117,28 +175,22 @@ class _DashboardState extends State<Dashboard> {
           borderRadius: BorderRadius.circular(12),
           side: BorderSide(color: Colors.blue.shade100),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 8), 
+        padding: const EdgeInsets.symmetric(horizontal: 8),
       ),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => page),
-        );
+        Navigator.push(context, MaterialPageRoute(builder: (context) => page));
       },
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start, 
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Icon(icon, size: 22), 
-          const SizedBox(width: 8), 
+          Icon(icon, size: 22),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(
-                fontSize: 11, 
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
               maxLines: 1,
-              overflow: TextOverflow.ellipsis, 
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
