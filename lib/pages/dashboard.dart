@@ -96,7 +96,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                       _buildMenuButton(
                         context,
-                        "Penjumlahan",
+                        "Jumlah-Kurang",
                         Icons.add_box,
                         const TambahKurang(),
                       ),
