@@ -233,6 +233,10 @@ class _WetonState extends State<Weton> {
                 onPressed: _cekWeton,
                 icon: const Icon(Icons.search),
                 label: const Text("Cek Hari dan Weton"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                ),
               ),
             ),
 
